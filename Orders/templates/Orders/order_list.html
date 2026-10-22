@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %}Мої замовлення — MyShop{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold m-0">📋 Мої замовлення</h2>
+    <a href="{% url 'shop:product_list' %}" class="btn btn-primary fw-semibold">
+        ➕ Створити нове замовлення
+    </a>
+</div>
+
+<!-- Блок фільтрів та пошуку -->
+<div class="card shadow-sm border-0 mb-4 p-3 rounded-3">
+    <form method="get" class="row g-3 align-items-center">
+        <div class="col-md-5">
+            <input type="text" name="q" value="{{ query }}" class="form-control"
+                placeholder="Пошук за № замовлення або назвою товару...">
+        </div>
+        <div class="col-md-3">
+            <select name="status" class="form-select">
+                <option value="">Усі статуси</option>
+                {% for code, label in STATUS_CHOICES %}
+                <option value="{{ code }}" {% if status_filter == code %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select name="date_order" class="form-select">
+                <option value="desc" {% if date_order == 'desc' %}selected{% endif %}>Спочатку нові</option>
+                <option value="asc" {% if date_order == 'asc' %}selected{% endif %}>Спочатку старі</option>
+            </select>
+        </div>
+        <div class="col-md-2 d-flex gap-2">
+            <button type="submit" class="btn btn-outline-primary w-100">Фільтрувати</button>
+            {% if query or status_filter %}
+            <a href="{% url 'orders:order_list' %}" class="btn btn-outline-secondary" title="Скинути">✖</a>
+            {% endif %}
+        </div>
+    </form>
+</div>
+
+<!-- Таблиця/Список замовлень -->
+{% if orders %}
+<div class="table-responsive bg-white rounded-3 shadow-sm p-3">
+    <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+            <tr>
+                <th>№ Замовлення</th>
+                <th>Дата</th>
+                <th>Кількість товарів</th>
+                <th>Статус</th>
+                <th class="text-end">Дії</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td class="fw-bold">№{{ order.id }}</td>
+                <td class="text-muted">{{ order.created_at|date:"d.m.Y H:i" }}</td>
+                <td>{{ order.items.count }} шт.</td>
+                <td>
+                    <span class="badge 
+                        {% if order.status == 'pending' %}bg-warning text-dark
+                        {% elif order.status == 'processing' %}bg-info text-dark
+                        {% elif order.status == 'shipped' %}bg-primary
+                        {% elif order.status == 'delivered' %}bg-success
+                        {% else %}bg-secondary{% endif %}">
+                        {{ order.get_status_display }}
+                    </span>
+                </td>
+                <td class="text-end">
+                    <a href="{% url 'orders:order_detail' order.id %}" class="btn btn-outline-primary btn-sm me-1">
+                        Детальніше
+                    </a>
+                    <a href="{% url 'orders:order_reorder' order.id %}" class="btn btn-outline-success btn-sm"
+                        title="Повторити замовлення">
+                        🔄 Повторити
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="card text-center p-5 border-0 shadow-sm rounded-3">
+    <div class="display-4 mb-3">🛒</div>
+    <h4 class="fw-bold">Замовлень не знайдено</h4>
+    <p class="text-muted">Ви ще не робили замовлень або жодне замовлення не відповідає обраним фільтрам.</p>
+    <div>
+        <a href="{% url 'shop:product_list' %}" class="btn btn-primary fw-semibold">
+            Перейти до товарів
+        </a>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'AdminPanel/admin_base.html' %}
+
+{% block title %}Управління замовленнями — AdminPanel{% endblock %}
+
+{% block content %}
+<h2 class="fw-bold mb-4">🛒 Управління замовленнями</h2>
+
+<!-- Фільтрація -->
+<div class="card border-0 shadow-sm p-3 mb-4 rounded-3">
+    <form method="get" class="row g-2">
+        <div class="col-md-6">
+            <input type="text" name="q" value="{{ query }}" class="form-control"
+                placeholder="Пошук за №, ім'ям, email...">
+        </div>
+        <div class="col-md-4">
+            <select name="status" class="form-select">
+                <option value="">Усі статуси</option>
+                {% for code, label in STATUS_CHOICES %}
+                <option value="{{ code }}" {% if status_filter == code %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-outline-primary w-100">Фільтрувати</button>
+        </div>
+    </form>
+</div>
+
+<!-- Список замовлень -->
+<div class="card border-0 shadow-sm p-3 rounded-3">
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th>№</th>
+                    <th>Клієнт</th>
+                    <th>Email / Тел</th>
+                    <th>Статус</th>
+                    <th>Дата</th>
+                    <th class="text-end">Дія</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td><strong>№{{ order.id }}</strong></td>
+                    <td>{{ order.first_name }} {{ order.last_name }}</td>
+                    <td>{{ order.email }}<br><small class="text-muted">{{ order.phone }}</small></td>
+                    <td>
+                        <span
+                            class="badge {% if order.status == 'pending' %}bg-warning text-dark{% elif order.status == 'delivered' %}bg-success{% else %}bg-primary{% endif %}">
+                            {{ order.get_status_display }}
+                        </span>
+                    </td>
+                    <td>{{ order.created_at|date:"d.m.Y H:i" }}</td>
+                    <td class="text-end">
+                        <a href="{% url 'admin_panel:admin_order_detail' order.id %}"
+                            class="btn btn-sm btn-outline-primary">Деталі / Змінити</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

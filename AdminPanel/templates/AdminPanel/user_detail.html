@@ -1,0 +1,56 @@
+{% extends 'AdminPanel/admin_base.html' %}
+
+{% block title %}Редагування {{ target_user.username }} — AdminPanel{% endblock %}
+
+{% block content %}
+<div class="mb-3">
+    <a href="{% url 'admin_panel:user_list' %}" class="btn btn-outline-secondary btn-sm">← До списку користувачів</a>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm p-4 rounded-3">
+            <h4 class="fw-bold mb-3">Дані користувача: {{ target_user.username }}</h4>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-2"><label class="form-label fw-semibold">Username</label>{{ form.username }}</div>
+                <div class="mb-2"><label class="form-label fw-semibold">Email</label>{{ form.email }}</div>
+                <div class="mb-2"><label class="form-label fw-semibold">Ім'я</label>{{ form.first_name }}</div>
+                <div class="mb-2"><label class="form-label fw-semibold">Прізвище</label>{{ form.last_name }}</div>
+                <div class="mb-2"><label class="form-label fw-semibold">Телефон</label>{{ form.phone_number }}</div>
+                <div class="mb-2"><label class="form-label fw-semibold">Дата народження 🎂</label>{{ form.date_of_birth
+                    }}</div>
+                <div class="mb-3"><label class="form-label fw-semibold">Адреса</label>{{ form.address }}</div>
+
+                <hr>
+                <div class="form-check mb-2">{{ form.is_active }} <label class="form-check-label fw-semibold"
+                        for="{{ form.is_active.id_for_label }}">{{ form.is_active.label }}</label></div>
+                <div class="form-check mb-4">{{ form.is_staff }} <label class="form-check-label fw-semibold"
+                        for="{{ form.is_staff.id_for_label }}">{{ form.is_staff.label }}</label></div>
+
+                <button type="submit" class="btn btn-primary fw-semibold w-100">Зберегти зміни</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Замовлення користувача -->
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm p-4 rounded-3">
+            <h5 class="fw-bold mb-3">Замовлення користувача ({{ user_orders.count }})</h5>
+            <div class="list-group list-group-flush">
+                {% for order in user_orders %}
+                <a href="{% url 'admin_panel:admin_order_detail' order.id %}"
+                    class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>№{{ order.id }}</strong> — {{ order.created_at|date:"d.m.Y" }}
+                    </div>
+                    <span class="badge bg-primary">{{ order.get_status_display }}</span>
+                </a>
+                {% empty %}
+                <p class="text-muted">Цей користувач ще не робив замовлень.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

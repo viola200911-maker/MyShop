@@ -1,0 +1,78 @@
+{% extends 'AdminPanel/admin_base.html' %}
+
+{% block title %}Управління користувачами — AdminPanel{% endblock %}
+
+{% block content %}
+<h2 class="fw-bold mb-4">👥 Управління користувачами</h2>
+
+<!-- Пошук та фільтрація -->
+<div class="card border-0 shadow-sm p-3 mb-4 rounded-3">
+    <form method="get" class="row g-2">
+        <div class="col-md-6">
+            <input type="text" name="q" value="{{ query }}" class="form-control"
+                placeholder="Пошук за логіном, email, ім'ям або телефоном...">
+        </div>
+        <div class="col-md-4">
+            <select name="role" class="form-select">
+                <option value="">Усі користувачі</option>
+                <option value="active" {% if role == 'active' %}selected{% endif %}>Активні</option>
+                <option value="banned" {% if role == 'banned' %}selected{% endif %}>Забанені</option>
+                <option value="staff" {% if role == 'staff' %}selected{% endif %}>Адміністратори (Staff)</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-outline-primary w-100">Фільтрувати</button>
+        </div>
+    </form>
+</div>
+
+<!-- Таблиця користувачів -->
+<div class="card border-0 shadow-sm p-3 rounded-3">
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>ПІБ</th>
+                    <th>Статус</th>
+                    <th>Права</th>
+                    <th class="text-end">Дії</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user_item in users %}
+                <tr>
+                    <td class="fw-bold">{{ user_item.username }}</td>
+                    <td>{{ user_item.email }}</td>
+                    <td>{{ user_item.first_name }} {{ user_item.last_name }}</td>
+                    <td>
+                        {% if user_item.is_active %}
+                        <span class="badge bg-success">Активний</span>
+                        {% else %}
+                        <span class="badge bg-danger">Забанений</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if user_item.is_staff %}
+                        <span class="badge bg-primary">Staff / Адмін</span>
+                        {% else %}
+                        <span class="badge bg-secondary">Клієнт</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-end">
+                        <a href="{% url 'admin_panel:user_detail' user_item.id %}"
+                            class="btn btn-sm btn-outline-primary me-1">Редагувати</a>
+                        <a href="{% url 'admin_panel:toggle_user_ban' user_item.id %}"
+                            class="btn btn-sm {% if user_item.is_active %}btn-outline-danger{% else %}btn-outline-success{% endif %}"
+                            onclick="return confirm('Змінити статус доступу?');">
+                            {% if user_item.is_active %}Забанити{% else %}Розбанити{% endif %}
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

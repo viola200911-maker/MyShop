@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Вхід через Google — MyShop{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center my-5">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow-sm border-0 rounded-3 text-center p-4">
+            <div class="display-4 mb-3">🌐</div>
+            <h3 class="fw-bold mb-3">Вхід через Google</h3>
+            <p class="text-muted mb-4">
+                Ви збираєтеся увійти в акаунт MyShop за допомогою вашого облікового запису Google.
+            </p>
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg fw-semibold">
+                        Продовжити вхід
+                    </button>
+                    <a href="{% url 'login' %}" class="btn btn-outline-secondary">
+                        Скасувати
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

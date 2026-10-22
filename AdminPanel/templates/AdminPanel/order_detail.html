@@ -1,0 +1,83 @@
+{% extends 'AdminPanel/admin_base.html' %}
+
+{% block title %}Редагування замовлення №{{ order.id }} — AdminPanel{% endblock %}
+
+{% block content %}
+<div class="mb-3">
+    <a href="{% url 'admin_panel:admin_order_list' %}" class="btn btn-outline-secondary btn-sm">← До списку
+        замовлень</a>
+</div>
+
+<div class="row g-4">
+    <!-- Товари -->
+    <div class="col-lg-7">
+        <div class="card border-0 shadow-sm p-4 rounded-3">
+            <h4 class="fw-bold mb-3">Замовлення №{{ order.id }}</h4>
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th>Товар</th>
+                            <th>Ціна</th>
+                            <th>К-сть</th>
+                            <th class="text-end">Сума</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order.items.all %}
+                        <tr>
+                            <td>{{ item.product.name }}</td>
+                            <td>{{ item.price }} грн</td>
+                            <td>{{ item.quantity }} шт.</td>
+                            <td class="text-end">{% widthratio item.price 1 item.quantity %} грн</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="text-end fw-bold fs-5 text-primary mt-2">
+                Загалом: {{ total_cost }} грн
+            </div>
+        </div>
+    </div>
+
+    <!-- Форма редагування статусу та даних -->
+    <div class="col-lg-5">
+        <div class="card border-0 shadow-sm p-4 rounded-3">
+            <h5 class="fw-bold mb-3">Параметри замовлення</h5>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Статус замовлення</label>
+                    {{ form.status }}
+                </div>
+                <div class="mb-2">
+                    <label class="form-label fw-semibold">Ім'я</label>
+                    {{ form.first_name }}
+                </div>
+                <div class="mb-2">
+                    <label class="form-label fw-semibold">Прізвище</label>
+                    {{ form.last_name }}
+                </div>
+                <div class="mb-2">
+                    <label class="form-label fw-semibold">Email</label>
+                    {{ form.email }}
+                </div>
+                <div class="mb-2">
+                    <label class="form-label fw-semibold">Телефон</label>
+                    {{ form.phone }}
+                </div>
+                <div class="mb-2">
+                    <label class="form-label fw-semibold">Адреса</label>
+                    {{ form.address }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Примітка</label>
+                    {{ form.notes }}
+                </div>
+                <button type="submit" class="btn btn-primary w-100 fw-semibold">Зберегти зміни</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

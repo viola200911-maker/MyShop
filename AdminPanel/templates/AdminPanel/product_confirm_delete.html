@@ -1,0 +1,16 @@
+{% extends 'AdminPanel/admin_base.html' %}
+
+{% block title %}Видалення товару — AdminPanel{% endblock %}
+
+{% block content %}
+<div class="card border-0 shadow-sm p-4 rounded-3 col-md-6">
+    <h4 class="fw-bold text-danger mb-3">Видалити товар?</h4>
+    <p>Ви дійсно бажаєте видалити товар <strong>"{{ product.name }}"</strong>?</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger fw-semibold">Так, видалити</button>
+        <a href="{% url 'admin_panel:admin_product_list' %}" class="btn btn-outline-secondary">Скасувати</a>
+    </form>
+</div>
+{% endblock %}

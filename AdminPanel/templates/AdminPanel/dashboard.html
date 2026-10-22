@@ -1,0 +1,74 @@
+{% extends 'AdminPanel/admin_base.html' %}
+
+{% block title %}Дашборд — AdminPanel{% endblock %}
+
+{% block content %}
+<h2 class="fw-bold mb-4">📊 Головна панель</h2>
+
+<!-- Картки статистики -->
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white p-3 border-0 shadow-sm rounded-3">
+            <div class="fs-6 opacity-75">Всього товарів</div>
+            <div class="display-6 fw-bold">{{ total_products }}</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success text-white p-3 border-0 shadow-sm rounded-3">
+            <div class="fs-6 opacity-75">Всього замовлень</div>
+            <div class="display-6 fw-bold">{{ total_orders }}</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-dark p-3 border-0 shadow-sm rounded-3">
+            <div class="fs-6 opacity-75">Очікують обробки</div>
+            <div class="display-6 fw-bold">{{ pending_orders }}</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-info text-white p-3 border-0 shadow-sm rounded-3">
+            <div class="fs-6 opacity-75">Користувачів</div>
+            <div class="display-6 fw-bold">{{ total_users }}</div>
+        </div>
+    </div>
+</div>
+
+<!-- Останні замовлення -->
+<div class="card border-0 shadow-sm p-4 rounded-3">
+    <h5 class="fw-bold mb-3">Останні замовлення</h5>
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th>№</th>
+                    <th>Клієнт</th>
+                    <th>Email</th>
+                    <th>Статус</th>
+                    <th>Дата</th>
+                    <th class="text-end">Дія</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in recent_orders %}
+                <tr>
+                    <td><strong>№{{ order.id }}</strong></td>
+                    <td>{{ order.first_name }} {{ order.last_name }}</td>
+                    <td>{{ order.email }}</td>
+                    <td>
+                        <span
+                            class="badge {% if order.status == 'pending' %}bg-warning text-dark{% else %}bg-primary{% endif %}">
+                            {{ order.get_status_display }}
+                        </span>
+                    </td>
+                    <td>{{ order.created_at|date:"d.m.Y H:i" }}</td>
+                    <td class="text-end">
+                        <a href="{% url 'admin_panel:admin_order_detail' order.id %}"
+                            class="btn btn-sm btn-outline-primary">Переглянути</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

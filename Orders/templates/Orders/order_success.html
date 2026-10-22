@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Замовлення прийнято — MyShop{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center my-5">
+    <div class="col-md-8 col-lg-6 text-center">
+        <div class="card shadow-sm border-0 p-5 rounded-3">
+            <div class="display-1 text-success mb-3">🎉</div>
+            <h2 class="fw-bold mb-2">Дякуємо за замовлення!</h2>
+            <p class="text-muted fs-5 mb-4">Замовлення <strong>№{{ order.id }}</strong> успішно оформлено.</p>
+
+            <p class="text-secondary mb-4">
+                Ми надіслали підтвердження на вашій електронній пошті (<strong>{{ order.email }}</strong>).
+                Наш менеджер зв'яжеться з вами найближчим часом.
+            </p>
+
+            <div class="d-flex justify-content-center gap-3 mt-2">
+                <a href="{% url 'home' %}" class="btn btn-primary btn-lg fw-semibold">
+                    🏠 На головну
+                </a>
+                <!-- Заготовка для сторінки всіх замовлень -->
+                <a href="{% url 'orders:order_list' %}" class="btn btn-outline-secondary btn-lg fw-semibold">
+                    📋 Мої замовлення
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

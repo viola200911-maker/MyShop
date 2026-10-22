@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block title %}Оформлення замовлення — MyShop{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <h2 class="fw-bold mb-3">📦 Оформлення замовлення</h2>
+
+    <!-- Перелік товарів у замовленні -->
+    <div class="col-lg-5 order-lg-2">
+        <div class="card shadow-sm border-0 rounded-3 p-3">
+            <h5 class="fw-bold mb-3">Ваше замовлення</h5>
+            <ul class="list-group list-group-flush mb-3">
+                {% for item in cart %}
+                <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                    <div class="d-flex align-items-center">
+                        {% if item.product.image %}
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="rounded me-3"
+                            style="width: 50px; height: 50px; object-fit: cover;">
+                        {% endif %}
+                        <div>
+                            <h6 class="my-0">{{ item.product.name }}</h6>
+                            <small class="text-muted">{{ item.quantity }} шт. × {{ item.price }} грн</small>
+                        </div>
+                    </div>
+                    <span class="fw-semibold text-dark">{{ item.total_price }} грн</span>
+                </li>
+                {% endfor %}
+                <li class="list-group-item d-flex justify-content-between px-0 fw-bold fs-5 pt-3">
+                    <span>Разом до сплати:</span>
+                    <span class="text-primary">
+                        {% if cart.get_discount > 0 %}
+                        {{ cart.get_total_price_after_discount }} грн
+                        {% else %}
+                        {{ cart.get_total_price }} грн
+                        {% endif %}
+                    </span>
+                </li>
+            </ul>
+            <a href="{% url 'cart:cart_detail' %}" class="btn btn-outline-secondary btn-sm w-100">Редагувати кошик</a>
+        </div>
+    </div>
+
+    <!-- Форма даних та оплати -->
+    <div class="col-lg-7 order-lg-1">
+        <div class="card shadow-sm border-0 rounded-3 p-4">
+            <form method="post">
+                {% csrf_token %}
+
+                <h5 class="fw-bold mb-3">1. Контактні дані та адреса</h5>
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <label class="form-label fw-semibold">Ім'я</label>
+                        {{ form.first_name }}
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label fw-semibold">Прізвище</label>
+                        {{ form.last_name }}
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label fw-semibold">Телефон</label>
+                        {{ form.phone }}
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label fw-semibold">Email</label>
+                        {{ form.email }}
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Адреса доставки</label>
+                        {{ form.address }}
+                    </div>
+
+                    <!-- 🌟 ПРАПОРЕЦЬ ДЛЯ ЗБЕРЕЖЕННЯ ДАНИХ У ПРОФІЛЬ -->
+                    {% if user.is_authenticated %}
+                    <div class="col-12">
+                        <div class="form-check mt-1">
+                            {{ form.is_default }}
+                            <label class="form-check-label fw-medium text-secondary"
+                                for="{{ form.is_default.id_for_label }}">
+                                Зберегти ці дані як основні у моєму профілі
+                            </label>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Примітки до замовлення</label>
+                        {{ form.notes }}
+                    </div>
+                </div>
+
+                <hr class="my-4">
+
+                <h5 class="fw-bold mb-3">2. Спосіб оплати</h5>
+                <div class="my-3">
+                    {% for radio in form.payment_method %}
+                    <div class="form-check mb-2">
+                        {{ radio.tag }}
+                        <label class="form-check-label fw-medium" for="{{ radio.id_for_label }}">
+                            {{ radio.choice_label }}
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg w-100 mt-4 fw-semibold">
+                    Підтвердити замовлення
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'AdminPanel/admin_base.html' %}
+
+{% block title %}{{ title }} — AdminPanel{% endblock %}
+
+{% block content %}
+<div class="mb-3">
+    <a href="{% url 'admin_panel:admin_product_list' %}" class="btn btn-outline-secondary btn-sm">← До списку
+        товарів</a>
+</div>
+
+<div class="card border-0 shadow-sm p-4 rounded-3 col-lg-8">
+    <h4 class="fw-bold mb-4">{{ title }}</h4>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Назва товару</label>
+            {{ form.name }}
+        </div>
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Slug</label>
+            {{ form.slug }}
+        </div>
+        <div class="row g-3 mb-3">
+            <div class="col-md-4">
+                <label class="form-label fw-semibold">Категорія</label>
+                {{ form.category }}
+            </div>
+            <div class="col-md-4">
+                <label class="form-label fw-semibold">Ціна (грн)</label>
+                {{ form.price }}
+            </div>
+            <div class="col-md-4">
+                <label class="form-label fw-semibold">Залишок (шт)</label>
+                {{ form.stock }}
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Зображення</label>
+            {{ form.image }}
+        </div>
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Опис</label>
+            {{ form.description }}
+        </div>
+        <div class="form-check mb-4">
+            {{ form.is_active }}
+            <label class="form-check-label fw-semibold" for="{{ form.is_active.id_for_label }}">Відображати товар на
+                сайті</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary fw-semibold">Зберегти товар</button>
+    </form>
+</div>
+{% endblock %}

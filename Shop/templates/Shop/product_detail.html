@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }} — MyShop{% endblock %}
+
+{% block content %}
+<div class="row mt-4">
+    <!-- Зображення товару -->
+    <div class="col-md-6">
+        {% if product.image %}
+        <img src="{{ product.image.url }}" class="img-fluid rounded shadow-sm" alt="{{ product.name }}">
+        {% else %}
+        <div class="bg-light text-center py-5 text-muted rounded">Немає фото</div>
+        {% endif %}
+    </div>
+
+    <!-- Інформація про товар -->
+    <div class="col-md-6">
+        <h1 class="fw-bold">{{ product.name }}</h1>
+        <p class="text-muted mb-2">Категорія: <strong>{{ product.category.name }}</strong></p>
+
+        <!-- Середній рейтинг товару -->
+        <div class="mb-3 d-flex align-items-center gap-2">
+            <span class="text-warning fs-5">
+                {% for i in "12345" %}
+                {% if forloop.counter <= avg_rating %}★{% else %}☆{% endif %} {% endfor %} </span>
+                    <span class="fw-bold fs-6">{{ avg_rating }} / 5</span>
+                    <span class="text-muted small">({{ reviews.count }} відгуків)</span>
+        </div>
+
+        <h3 class="text-primary my-3 fw-bold">{{ product.price }} грн</h3>
+
+        <p>
+            Наявність:
+            {% if product.stock > 0 %}
+            <span class="badge bg-success">В наявності ({{ product.stock }} шт.)</span>
+            {% else %}
+            <span class="badge bg-danger">Немає в наявності</span>
+            {% endif %}
+        </p>
+
+        <h5 class="mt-4 fw-bold">Опис товару:</h5>
+        <p class="text-secondary">{{ product.description|linebreaks }}</p>
+
+        <!-- Кнопка додавання у кошик -->
+        <div class="mt-4 pt-3 border-top">
+            {% if product.stock > 0 %}
+            <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                {% csrf_token %}
+                <div class="d-flex align-items-center gap-3 flex-wrap">
+                    <div style="width: 90px;">
+                        <label for="quantity" class="form-label small text-muted mb-1">Кількість:</label>
+                        <input type="number" id="quantity" name="quantity" value="1" min="1" max="{{ product.stock }}"
+                            class="form-control text-center">
+                    </div>
+                    <div class="align-self-end d-flex gap-2">
+                        <button type="submit" class="btn btn-success btn-lg fw-semibold">
+                            🛒 Додати у кошик
+                        </button>
+                        <a href="{% url 'shop:product_list' %}" class="btn btn-outline-secondary btn-lg">
+                            ← До каталогу
+                        </a>
+                    </div>
+                </div>
+            </form>
+            {% else %}
+            <a href="{% url 'shop:product_list' %}" class="btn btn-outline-secondary btn-lg">
+                ← До каталогу
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- ==================== БЛОК ВІДГУКІВ ==================== -->
+<div class="row mt-5">
+    <div class="col-12">
+        <hr class="my-4">
+        <h3 class="fw-bold mb-4">
+            💬 Відгуки покупців
+            <span class="text-warning fs-4">★ {{ avg_rating }}</span>
+            <small class="text-muted fs-6">({{ reviews.count }})</small>
+        </h3>
+
+        <!-- Форма додавання відгуку -->
+        <div class="card p-4 border-0 shadow-sm mb-4 rounded-3">
+            <h5 class="fw-bold mb-3">Залишити відгук</h5>
+            {% if user.is_authenticated %}
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold">{{ form.rating.label }}</label>
+                        {{ form.rating }}
+                    </div>
+                    <div class="col-md-8">
+                        <label class="form-label fw-semibold">{{ form.image.label }}</label>
+                        {{ form.image }}
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">{{ form.comment.label }}</label>
+                        {{ form.comment }}
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary fw-semibold mt-3">Надіслати відгук</button>
+            </form>
+            {% else %}
+            <p class="text-muted mb-0">
+                Щоб залишити відгук, будь ласка, <a href="{% url 'login' %}" class="fw-semibold">увійдіть до свого
+                    акаунту</a>.
+            </p>
+            {% endif %}
+        </div>
+
+        <!-- Список усіх відгуків -->
+        <div class="reviews-list">
+            {% for review in reviews %}
+            <div class="card border-0 shadow-sm p-3 mb-3 rounded-3">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <div class="d-flex align-items-center gap-2">
+                        <!-- Аватар автора -->
+                        {% if review.user.avatar and review.user.avatar.url %}
+                        <img src="{{ review.user.avatar.url }}" class="rounded-circle"
+                            style="width: 38px; height: 38px; object-fit: cover;">
+                        {% else %}
+                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold shadow-sm"
+                            style="width: 38px; height: 38px;">
+                            {{ review.user.username|slice:":1"|upper }}
+                        </div>
+                        {% endif %}
+
+                        <div>
+                            <strong class="d-block">{{ review.user.username }}</strong>
+                            <small class="text-muted">{{ review.created_at|date:"d.m.Y H:i" }}</small>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3">
+                        <!-- Зірочки оцінки -->
+                        <span class="text-warning fw-bold fs-5">
+                            {% for i in "12345" %}
+                            {% if forloop.counter <= review.rating %}★{% else %}☆{% endif %} {% endfor %} </span>
+
+                                <!-- Кнопка видалення для адміністратора -->
+                                {% if user.is_staff or user.is_superuser %}
+                                <form action="{% url 'admin_panel:delete_review' review.id %}" method="post"
+                                    class="d-inline" onsubmit="return confirm('Видалити цей відгук?');">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-outline-danger btn-sm border-0"
+                                        title="Видалити відгук">🗑️</button>
+                                </form>
+                                {% endif %}
+                    </div>
+                </div>
+
+                <!-- Текст відгуку -->
+                <p class="mb-2 text-secondary px-1">{{ review.comment }}</p>
+
+                <!-- Прикріплене фото до відгуку -->
+                {% if review.image %}
+                <div class="mt-2 px-1">
+                    <a href="{{ review.image.url }}" target="_blank">
+                        <img src="{{ review.image.url }}" class="rounded shadow-sm border"
+                            style="max-height: 140px; object-fit: cover;">
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+            {% empty %}
+            <div class="text-center py-4 bg-white rounded-3 shadow-sm text-muted">
+                <p class="mb-0">Для цього товару ще немає відгуків. Будьте першим, хто залишить свій відгук!</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

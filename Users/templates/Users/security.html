@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block title %}Налаштування безпеки — MyShop{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0 rounded-3">
+            <div class="card-header bg-white py-3 border-bottom">
+                <h4 class="mb-0 fw-bold">🔒 Зміна важливих даних</h4>
+            </div>
+
+            <div class="card-body p-4">
+                <form method="post">
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                    <div class="alert alert-danger mb-3">
+                        {% for error in form.non_field_errors %}
+                        <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <!-- Поточний пароль з оком -->
+                    <div class="mb-4 p-3 bg-warning-subtle rounded-3 border border-warning">
+                        <label for="{{ form.current_password.id_for_label }}" class="form-label fw-bold text-dark">
+                            {{ form.current_password.label }}
+                        </label>
+                        <div class="input-group">
+                            {{ form.current_password }}
+                            <button class="btn btn-inline-secondary toggle-password" type="button"
+                                title="Показати/приховати пароль">
+                                👁️
+                            </button>
+                        </div>
+                        {% if form.current_password.errors %}
+                        <div class="text-danger small mt-1">{{ form.current_password.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.username.id_for_label }}" class="form-label fw-semibold">
+                            {{ form.username.label }}
+                        </label>
+                        {{ form.username }}
+                        {% if form.username.errors %}
+                        <div class="text-danger small mt-1">{{ form.username.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.email.id_for_label }}" class="form-label fw-semibold">
+                            {{ form.email.label }}
+                        </label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                        <div class="text-danger small mt-1">{{ form.email.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <hr class="my-4">
+
+                    <!-- Новий пароль з оком -->
+                    <div class="mb-3">
+                        <label for="{{ form.new_password.id_for_label }}" class="form-label fw-semibold">
+                            {{ form.new_password.label }}
+                        </label>
+                        <div class="input-group">
+                            {{ form.new_password }}
+                            <button class="btn btn-inline-secondary toggle-password" type="button"
+                                title="Показати/приховати пароль">
+                                👁️
+                            </button>
+                        </div>
+                        {% if form.new_password.errors %}
+                        <div class="text-danger small mt-1">{{ form.new_password.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Підтвердження нового пароля з оком -->
+                    <div class="mb-3">
+                        <label for="{{ form.confirm_password.id_for_label }}" class="form-label fw-semibold">
+                            {{ form.confirm_password.label }}
+                        </label>
+                        <div class="input-group">
+                            {{ form.confirm_password }}
+                            <button class="btn btn-inline-secondary toggle-password" type="button"
+                                title="Показати/приховати пароль">
+                                👁️
+                            </button>
+                        </div>
+                        {% if form.confirm_password.errors %}
+                        <div class="text-danger small mt-1">{{ form.confirm_password.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+                        <a href="{% url 'profile' %}" class="btn btn-outline-secondary">
+                            Назад до профілю
+                        </a>
+                        <button type="submit" class="btn btn-danger px-4">
+                            Зберегти зміни
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Скрипт для роботи ока (перемикання видимості пароля) -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".toggle-password").forEach(function (button) {
+            button.addEventListener("click", function () {
+                const input = this.previousElementSibling;
+                if (input && (input.type === "password" || input.type === "text")) {
+                    if (input.type === "password") {
+                        input.type = "text";
+                        this.innerText = "🙈";
+                    } else {
+                        input.type = "password";
+                        this.innerText = "👁️";
+                    }
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

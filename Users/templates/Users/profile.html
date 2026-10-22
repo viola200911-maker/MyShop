@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+
+{% block title %}Особистий кабінет — MyShop{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-7">
+        <div class="card shadow-sm border-0 rounded-3">
+            <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center border-bottom">
+                <h4 class="mb-0 fw-bold">⚙️ Особисті дані</h4>
+                <span id="formStatusBadge" class="badge bg-secondary-subtle text-secondary border">Дані не
+                    змінювалися</span>
+            </div>
+
+            <div class="card-body p-4">
+                <div class="alert alert-light border mb-4 d-flex justify-content-between align-items-center">
+                    <div>
+                        <div><strong>Логін:</strong> {{ user.username }}</div>
+                        <div><strong>Email:</strong> {{ user.email }}</div>
+                    </div>
+                    <a href="{% url 'security' %}" class="btn btn-outline-warning btn-sm fw-semibold">
+                        🔒 Змінити логін, email або пароль
+                    </a>
+                </div>
+
+                <form id="profileForm" method="post" enctype="multipart/form-data" action="{% url 'profile' %}">
+                    {% csrf_token %}
+
+                    <!-- Аватар -->
+                    <div class="d-flex align-items-center gap-3 mb-4 p-3 bg-light rounded-3">
+                        {% if user.avatar %}
+                        <img src="{{ user.avatar.url }}" alt="Avatar" class="rounded-circle object-fit-cover shadow-sm"
+                            width="80" height="80">
+                        {% else %}
+                        <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center fs-3 fw-bold shadow-sm"
+                            style="width: 80px; height: 80px;">
+                            {{ user.username|first|upper }}
+                        </div>
+                        {% endif %}
+                        <div class="flex-grow-1">
+                            <label for="{{ form.avatar.id_for_label }}" class="form-label fw-bold mb-1">Змінити
+                                аватар</label>
+                            {{ form.avatar }}
+                            {% if form.avatar.errors %}
+                            <div class="text-danger small mt-1">{{ form.avatar.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Поля форми -->
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="{{ form.first_name.id_for_label }}" class="form-label fw-semibold">Ім'я</label>
+                            {{ form.first_name }}
+                            {% if form.first_name.errors %}
+                            <div class="text-danger small mt-1">{{ form.first_name.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="{{ form.last_name.id_for_label }}"
+                                class="form-label fw-semibold">Прізвище</label>
+                            {{ form.last_name }}
+                            {% if form.last_name.errors %}
+                            <div class="text-danger small mt-1">{{ form.last_name.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="{{ form.phone_number.id_for_label }}" class="form-label fw-semibold">Номер
+                                телефону</label>
+                            {{ form.phone_number }}
+                            {% if form.phone_number.errors %}
+                            <div class="text-danger small mt-1">{{ form.phone_number.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="{{ form.date_of_birth.id_for_label }}" class="form-label fw-semibold">Дата
+                                народження 🎂</label>
+                            {{ form.date_of_birth }}
+                            {% if form.date_of_birth.errors %}
+                            <div class="text-danger small mt-1">{{ form.date_of_birth.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-12">
+                            <label for="{{ form.address.id_for_label }}" class="form-label fw-semibold">Адреса
+                                доставки</label>
+                            {{ form.address }}
+                            {% if form.address.errors %}
+                            <div class="text-danger small mt-1">{{ form.address.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Кнопки дій -->
+                    <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+                        <a href="{% url 'home' %}" class="btn btn-outline-secondary">
+                            Назад на головну
+                        </a>
+                        <div class="d-flex gap-2">
+                            <button type="submit" name="cancel" value="1" class="btn btn-outline-secondary px-4">
+                                Скасувати
+                            </button>
+                            <button type="submit" name="save" class="btn btn-primary px-4">
+                                Застосувати зміни
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("profileForm");
+        const badge = document.getElementById("formStatusBadge");
+        let isDirty = false;
+
+        form.addEventListener("input", markAsDirty);
+        form.addEventListener("change", markAsDirty);
+
+        function markAsDirty() {
+            if (!isDirty) {
+                isDirty = true;
+                badge.className = "badge bg-warning text-dark border";
+                badge.innerText = "Є незбережені зміни";
+            }
+        }
+
+        document.addEventListener("click", function (e) {
+            if (!isDirty) return;
+
+            const link = e.target.closest("a");
+            const cancelButton = e.target.closest('button[name="cancel"]');
+
+            if (link || cancelButton) {
+                const confirmLeave = confirm("У вас є незбережені зміни. Ви дійсно бажаєте покинути сторінку без збереження?");
+                if (!confirmLeave) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                } else {
+                    isDirty = false;
+                    window.removeEventListener("beforeunload", beforeUnloadHandler);
+                }
+            }
+        });
+
+        form.addEventListener("submit", function (e) {
+            const submitter = e.submitter;
+
+            if (submitter && submitter.name === 'save') {
+                const confirmSave = confirm("Чи дійсно ви бажаєте зберегти зміни в профілі користувача?");
+                if (!confirmSave) {
+                    e.preventDefault();
+                    return false;
+                }
+                isDirty = false;
+                window.removeEventListener("beforeunload", beforeUnloadHandler);
+            }
+        });
+
+        function beforeUnloadHandler(e) {
+            if (isDirty) {
+                e.preventDefault();
+                e.returnValue = "У вас є незбережені зміни.";
+            }
+        }
+        window.addEventListener("beforeunload", beforeUnloadHandler);
+    });
+</script>
+{% endblock %}
