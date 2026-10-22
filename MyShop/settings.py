@@ -204,7 +204,3 @@ SOCIALACCOUNT_EMAIL_AUTHENTICATION = True
 SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
 # Одразу перенаправляти на Google без проміжної сторінки "Continue"
 SOCIALACCOUNT_LOGIN_ON_GET = True
-<<<<<<< HEAD
-=======
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
->>>>>>> 880a510695ba37c17e3aafb4264c02719eee5ab7
