@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -204,3 +205,12 @@ SOCIALACCOUNT_EMAIL_AUTHENTICATION = True
 SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
 # Одразу перенаправляти на Google без проміжної сторінки "Continue"
 SOCIALACCOUNT_LOGIN_ON_GET = True
+
+
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL'), # Має збігатися з назвою змінної в панелі Render!
+        conn_max_age=600,
+        ssl_require=True
+    )
+}
