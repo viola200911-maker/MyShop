@@ -1,0 +1,1333 @@
+[
+{
+    "model": "Shop.coupon",
+    "pk": 1,
+    "fields": {
+        "code": "WELCOME10",
+        "discount_type": "percent",
+        "discount_value": "10.00",
+        "valid_from": "2026-10-15T22:42:05.616Z",
+        "valid_to": "2031-10-14T22:42:05.616Z",
+        "active": true,
+        "is_auto_birthday": false,
+        "is_auto_holiday": false,
+        "is_single_use": true
+    }
+},
+{
+    "model": "Shop.category",
+    "pk": 2,
+    "fields": {
+        "name": "Електроніка",
+        "slug": "elektronika",
+        "description": "Гаджети, побутова техніка та цифрові пристрої",
+        "parent": null
+    }
+},
+{
+    "model": "Shop.category",
+    "pk": 3,
+    "fields": {
+        "name": "Смартфони",
+        "slug": "smartfony",
+        "description": "Мобільні телефони та смартфони",
+        "parent": 2
+    }
+},
+{
+    "model": "Shop.category",
+    "pk": 4,
+    "fields": {
+        "name": "Ноутбуки",
+        "slug": "noutbuky",
+        "description": "Портативні комп'ютери та ноутбуки",
+        "parent": 2
+    }
+},
+{
+    "model": "Shop.category",
+    "pk": 5,
+    "fields": {
+        "name": "Аксесуари",
+        "slug": "aksesuary-elektronika",
+        "description": "Чохли, кабелі та зарядні пристрої",
+        "parent": 2
+    }
+},
+{
+    "model": "Shop.category",
+    "pk": 6,
+    "fields": {
+        "name": "Одяг та взуття",
+        "slug": "odyah-ta-vzuttya",
+        "description": "Стильний одяг, взуття та аксесуари",
+        "parent": null
+    }
+},
+{
+    "model": "Shop.category",
+    "pk": 7,
+    "fields": {
+        "name": "Чоловічий одяг",
+        "slug": "cholovichyy-odyah",
+        "description": "Одяг для чоловіків",
+        "parent": 6
+    }
+},
+{
+    "model": "Shop.category",
+    "pk": 8,
+    "fields": {
+        "name": "Жіночий одяг",
+        "slug": "zhinochyy-odyah",
+        "description": "Одяг для жінок",
+        "parent": 6
+    }
+},
+{
+    "model": "Shop.category",
+    "pk": 9,
+    "fields": {
+        "name": "Взуття",
+        "slug": "vzuttya",
+        "description": "Кросівки, черевики та інше взуття",
+        "parent": 6
+    }
+},
+{
+    "model": "Shop.category",
+    "pk": 10,
+    "fields": {
+        "name": "Товари для дому",
+        "slug": "tovary-dlya-domu",
+        "description": "Все для затишку та облаштування домівки",
+        "parent": null
+    }
+},
+{
+    "model": "Shop.category",
+    "pk": 11,
+    "fields": {
+        "name": "Меблі",
+        "slug": "mebli",
+        "description": "Столи, стільці, дивани",
+        "parent": 10
+    }
+},
+{
+    "model": "Shop.category",
+    "pk": 12,
+    "fields": {
+        "name": "Освітлення",
+        "slug": "osvitlennya",
+        "description": "Лампи, люстри та світильники",
+        "parent": 10
+    }
+},
+{
+    "model": "Shop.category",
+    "pk": 13,
+    "fields": {
+        "name": "Декор",
+        "slug": "dekor",
+        "description": "Предмети інтер'єру та прикраси",
+        "parent": 10
+    }
+},
+{
+    "model": "Shop.category",
+    "pk": 14,
+    "fields": {
+        "name": "Спорт і відпочинок",
+        "slug": "sport-i-vidpochynok",
+        "description": "Товари для активного способу життя",
+        "parent": null
+    }
+},
+{
+    "model": "Shop.category",
+    "pk": 15,
+    "fields": {
+        "name": "Тренажери",
+        "slug": "trenazhery",
+        "description": "Спортивне обладнання для дому та залу",
+        "parent": 14
+    }
+},
+{
+    "model": "Shop.category",
+    "pk": 16,
+    "fields": {
+        "name": "Туризм і кемпінг",
+        "slug": "turyzm-i-kyamping",
+        "description": "Намети, рюкзаки та спорядження",
+        "parent": 14
+    }
+},
+{
+    "model": "Shop.category",
+    "pk": 17,
+    "fields": {
+        "name": "Книги та канцелярія",
+        "slug": "knyhy-ta-kantselyariya",
+        "description": "Книги різних жанрів та товари для навчання і офісу",
+        "parent": null
+    }
+},
+{
+    "model": "Shop.category",
+    "pk": 18,
+    "fields": {
+        "name": "Художня література",
+        "slug": "khudozhnya-literatura",
+        "description": "Романи, детективи, фантастика",
+        "parent": 17
+    }
+},
+{
+    "model": "Shop.category",
+    "pk": 19,
+    "fields": {
+        "name": "Канцелярія",
+        "slug": "kantselyariya",
+        "description": "Зошити, ручки, блокноти",
+        "parent": 17
+    }
+},
+{
+    "model": "Shop.product",
+    "pk": 2,
+    "fields": {
+        "category": 3,
+        "name": "Смартфон Samsung Galaxy S23",
+        "slug": "samsung-galaxy-s23",
+        "description": "Потужний флагманський смартфон з чудовою камерою та екраном 120 Гц.",
+        "price": "32999.00",
+        "image": "products/2026/10/03/51yz4TrDNdL._AC_UF8941000_QL80_.jpg",
+        "stock": 15,
+        "is_active": true,
+        "created_at": "2026-10-02T02:43:18.065Z"
+    }
+},
+{
+    "model": "Shop.product",
+    "pk": 3,
+    "fields": {
+        "category": 4,
+        "name": "Ноутбук ASUS ROG Strix",
+        "slug": "asus-rog-strix",
+        "description": "Ігровий ноутбук з відеокартою RTX та високою продуктивністю для складних завдань.",
+        "price": "54999.00",
+        "image": "products/2026/10/03/811QpiYXe-L.jpg",
+        "stock": 8,
+        "is_active": true,
+        "created_at": "2026-10-02T02:43:18.081Z"
+    }
+},
+{
+    "model": "Shop.product",
+    "pk": 4,
+    "fields": {
+        "category": 5,
+        "name": "Бездротові навушники Sony WH-1000XM5",
+        "slug": "sony-wh-1000xm5",
+        "description": "Преміальні навушники з найкращим у своєму класі активним шумозаглушенням.",
+        "price": "14500.00",
+        "image": "products/2026/10/03/sony_wh_1000xm5_novi_flagmans_ki_bezdrotovi_navushniki_4.jpg",
+        "stock": 20,
+        "is_active": true,
+        "created_at": "2026-10-02T02:43:18.093Z"
+    }
+},
+{
+    "model": "Shop.product",
+    "pk": 5,
+    "fields": {
+        "category": 7,
+        "name": "Чоловічий худі Oversize",
+        "slug": "cholovychyy-khudi-oversize",
+        "description": "Зручний та теплий бавовняний худі базового крою на щодень.",
+        "price": "1499.00",
+        "image": "products/2026/10/03/mens-hoodie-black-oversize-71600949243264.jpg",
+        "stock": 35,
+        "is_active": true,
+        "created_at": "2026-10-02T02:43:18.107Z"
+    }
+},
+{
+    "model": "Shop.product",
+    "pk": 6,
+    "fields": {
+        "category": 8,
+        "name": "Жіноча сукня Міді",
+        "slug": "zhinocha-suknya-midi",
+        "description": "Елегантна сукня для вечірніх виходів та ділових зустрічей.",
+        "price": "2100.00",
+        "image": "products/2026/10/03/2195.6074_6.webp",
+        "stock": 12,
+        "is_active": true,
+        "created_at": "2026-10-02T02:43:18.123Z"
+    }
+},
+{
+    "model": "Shop.product",
+    "pk": 7,
+    "fields": {
+        "category": 9,
+        "name": "Кросівки Nike Air Force 1",
+        "slug": "nike-air-force-1",
+        "description": "Класичні білі шкіряні кросівки для щоденного носіння.",
+        "price": "4299.00",
+        "image": "products/2026/10/03/10527.webp",
+        "stock": 25,
+        "is_active": true,
+        "created_at": "2026-10-02T02:43:18.139Z"
+    }
+},
+{
+    "model": "Shop.product",
+    "pk": 8,
+    "fields": {
+        "category": 11,
+        "name": "Офісне крісло Ergonomic",
+        "slug": "ofisne-krislo-ergonomic",
+        "description": "Зручне комп'ютерне крісло з сітчастою спинкою та підтримкою попереку.",
+        "price": "6800.00",
+        "image": "products/2026/10/03/308420719.webp",
+        "stock": 10,
+        "is_active": true,
+        "created_at": "2026-10-02T02:43:18.155Z"
+    }
+},
+{
+    "model": "Shop.product",
+    "pk": 9,
+    "fields": {
+        "category": 12,
+        "name": "Настільна світлодіодна лампа",
+        "slug": "nastilna-svitlodiodna-lampa",
+        "description": "Стильна лампа з регулюванням яскравості та температури світла.",
+        "price": "950.00",
+        "image": "products/2026/10/03/232014.jpg",
+        "stock": 50,
+        "is_active": true,
+        "created_at": "2026-10-02T02:43:18.167Z"
+    }
+},
+{
+    "model": "Shop.product",
+    "pk": 10,
+    "fields": {
+        "category": 16,
+        "name": "Туристичний намет 3-місний",
+        "slug": "turystychnyy-namet-3-misnyy",
+        "description": "Легкий та водонепроникний двошаровий намет для походів і кемпінгу.",
+        "price": "3400.00",
+        "image": "products/2026/10/03/453x453_73-035.jpg",
+        "stock": 7,
+        "is_active": true,
+        "created_at": "2026-10-02T02:43:18.179Z"
+    }
+},
+{
+    "model": "Shop.product",
+    "pk": 11,
+    "fields": {
+        "category": 18,
+        "name": "Книга 'Дюна' - Френк Герберт",
+        "slug": "knyha-dyuna-frenk-herbert",
+        "description": "Культовий науково-фантастичний роман у твердій обкладинці.",
+        "price": "450.00",
+        "image": "products/2026/10/03/484-0.webp",
+        "stock": 40,
+        "is_active": true,
+        "created_at": "2026-10-02T02:43:18.192Z"
+    }
+},
+{
+    "model": "Shop.product",
+    "pk": 12,
+    "fields": {
+        "category": 13,
+        "name": "Ваза керамічна декоративна",
+        "slug": "vaza-keramichna-dekoratyvna",
+        "description": "Стильна керамічна ваза для прикрашання інтер'єру.",
+        "price": "890.00",
+        "image": "products/2026/10/03/0769610_-.jpeg",
+        "stock": 15,
+        "is_active": true,
+        "created_at": "2026-10-02T02:59:33.510Z"
+    }
+},
+{
+    "model": "Shop.product",
+    "pk": 14,
+    "fields": {
+        "category": 19,
+        "name": "Набір маркерів для скетчингу 24 шт",
+        "slug": "nabir-markeryv-24-sht",
+        "description": "Яскраві двосторонні маркери для малювання та нотаток.",
+        "price": "350.00",
+        "image": "products/2026/10/03/fce144f6-1306-469a-ab5c-9e950ccd95cb.webp",
+        "stock": 40,
+        "is_active": true,
+        "created_at": "2026-10-02T02:59:33.539Z"
+    }
+},
+{
+    "model": "Shop.product",
+    "pk": 19,
+    "fields": {
+        "category": 15,
+        "name": "Гантелі складані 2x10 кг",
+        "slug": "hanteli-skladani-2x10-kg",
+        "description": "Набір складаних гантелей для домашніх тренувань.",
+        "price": "2400.00",
+        "image": "products/2026/10/03/ganteli_razbornie_nabornie_kawmet_2sht_po_10kg_20_kg_1_.jpg",
+        "stock": 10,
+        "is_active": true,
+        "created_at": "2026-10-02T02:59:33.644Z"
+    }
+},
+{
+    "model": "Cart.cartitem",
+    "pk": 15,
+    "fields": {
+        "cart": 3,
+        "product": 12,
+        "quantity": 1
+    }
+},
+{
+    "model": "Orders.orderitem",
+    "pk": 1,
+    "fields": {
+        "order": 1,
+        "product": 19,
+        "price": "2400.00",
+        "quantity": 1
+    }
+},
+{
+    "model": "Orders.orderitem",
+    "pk": 2,
+    "fields": {
+        "order": 1,
+        "product": 11,
+        "price": "450.00",
+        "quantity": 1
+    }
+},
+{
+    "model": "Orders.orderitem",
+    "pk": 3,
+    "fields": {
+        "order": 2,
+        "product": 3,
+        "price": "54999.00",
+        "quantity": 1
+    }
+},
+{
+    "model": "Orders.orderitem",
+    "pk": 4,
+    "fields": {
+        "order": 3,
+        "product": 12,
+        "price": "890.00",
+        "quantity": 1
+    }
+},
+{
+    "model": "Orders.orderitem",
+    "pk": 5,
+    "fields": {
+        "order": 4,
+        "product": 7,
+        "price": "4299.00",
+        "quantity": 2
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "br9dbfrxrtefsgji1wsstxgfkx9346s9",
+    "fields": {
+        "session_data": ".eJxVjDsOwjAQBe_iGln-rR1T0nMGy7vr4ABypDipEHeHSCmgfTPzXiLlba1p62VJE4uzCOL0u2GmR2k74Htut1nS3NZlQrkr8qBdXmcuz8vh_h3U3Ou39jYQUGQiTSMGbcjkSB69sxotqiEaAKciOiDPCBjHPASj2HoFaFm8P-yyN80:1xJdss:mFbhSByHXUEkoN5uGTtDXm7_yzR8e9NBUd60tTuwKpA",
+        "expire_date": "2026-11-04T21:30:06.423Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "ieoh6kgla5t4x1ywafy030ibqcra6r5z",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2hAKBRmX7nsGMjOAVA0kpV0Z765NutDtf-_9lwi4rSVsPS1hjuIitDj9boT8SHUH8Y711iS3ui4zyV2RB-1yajE9r4f7d1Cwl2-NTDprzV4xO8PaGQ_A4M80WhiHlDJlgIzos2JrB2vBsxuJfDZKRyPeH_K_OBo:1xGpWx:d2mGhMiydrVoQnLZedsr_1wHaCDlB-TIDPWv0m72dMw",
+        "expire_date": "2026-10-28T03:19:51.460Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "iuiigwzye9m61tna3ldv79kxqtvdzqvn",
+    "fields": {
+        "session_data": ".eJxVjDEOwjAMRe-SGUUxQYnLyM4ZIsd2SQElUtNOiLtDpQ6w_vfef5lE61LS2nVOk5izAXP43TLxQ-sG5E711iy3usxTtptid9rttYk-L7v7d1Col28dgo4YIKNXZUZwTCI-MiAIxugAaKBwQpeZRvRRswyiyEHwmMGreX8A95c4mg:1xHVqu:Hq-XHukNutjarHM8Cq41yTRCn205wwvE09e45HP3aPI",
+        "expire_date": "2026-10-30T00:31:16.396Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "s5v2hb65v1uugdb7zaumtb631v9u0qfq",
+    "fields": {
+        "session_data": "e30:1xHU4b:blM6M3EO1KxLAjhcLTsxr-lDADoiEAHUTiyrTJ7WloM",
+        "expire_date": "2026-10-29T22:37:17.276Z"
+    }
+},
+{
+    "model": "sites.site",
+    "fields": {
+        "domain": "127.0.0.1:8000",
+        "name": "MyShop"
+    }
+},
+{
+    "model": "Users.customuser",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$iHt3WFauMJl7pUL2tB57qv$l3LJFXrgtAZHRk/1gs51Mbo5v5gMpzV5DefwW99ozww=",
+        "last_login": "2026-10-16T00:31:16.383Z",
+        "is_superuser": true,
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "email": "admin@gmail.com",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2026-09-30T21:33:59.400Z",
+        "phone_number": null,
+        "date_of_birth": null,
+        "address": null,
+        "avatar": "",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "Users.customuser",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$5XBvxyKsU5fJNVsQcKQ5I8$EJHeoiehHg1SRZg5t4CxUMSQ1e2QVJEu568Q0gxmXEU=",
+        "last_login": "2026-10-14T03:19:51.443Z",
+        "is_superuser": false,
+        "username": "violet11",
+        "first_name": "Violetta",
+        "last_name": "Hural",
+        "email": "viola200911@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-10-04T00:05:17.915Z",
+        "phone_number": "+380971234567",
+        "date_of_birth": null,
+        "address": "123 Shevchenko Street, Lviv",
+        "avatar": "avatars/111.png",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "Users.customuser",
+    "fields": {
+        "password": "!pypWnbZVL9UDfhCQevC1KHBTzmdtlTYPcMsjRIlf",
+        "last_login": "2026-10-13T21:00:53.273Z",
+        "is_superuser": false,
+        "username": "atteloiv",
+        "first_name": "Atteloiv",
+        "last_name": "Laruh",
+        "email": "atteloivlaruh@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-10-13T21:00:14.697Z",
+        "phone_number": null,
+        "date_of_birth": null,
+        "address": null,
+        "avatar": "",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "Users.customuser",
+    "fields": {
+        "password": "!M1iPiCCoshJ6vLwznhhwIqpSGOJ1oGI9hRfxN3JJ",
+        "last_login": "2026-10-15T22:56:01.603Z",
+        "is_superuser": false,
+        "username": "violet12",
+        "first_name": "Violet",
+        "last_name": "Hural",
+        "email": "violet987654321987654321@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-10-15T22:28:12.571Z",
+        "phone_number": "+380977654321",
+        "date_of_birth": null,
+        "address": "1 Apple Street, Lviv",
+        "avatar": "",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "Users.customuser",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$OBVUMVqe1H8h3JIUfEr13n$H1PoNh0kcwT8C3HahOxFPilP1dPKL1WxJYwwAqxs7QE=",
+        "last_login": "2026-10-15T22:41:01.121Z",
+        "is_superuser": false,
+        "username": "emrld",
+        "first_name": "Emerald",
+        "last_name": "Hural",
+        "email": "e@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-10-15T22:37:16.729Z",
+        "phone_number": "+380976543217",
+        "date_of_birth": null,
+        "address": "",
+        "avatar": "",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "Users.customuser",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$PUILtJHuxQJrXEqxk0gLYr$i5P3TyJvWjRlYdDR7B5u1BGuov4i74KQcWPiYYlCtYk=",
+        "last_login": "2026-10-15T22:42:05.604Z",
+        "is_superuser": false,
+        "username": "att",
+        "first_name": "Telo",
+        "last_name": "Vi",
+        "email": "vi@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-10-15T22:42:05.077Z",
+        "phone_number": "+380977654321",
+        "date_of_birth": null,
+        "address": "",
+        "avatar": "",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "Users.customuser",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$FZsqx0U25d8VOhRfmCnyrl$zaM8dh1J+4FFL7MHEGFhaudy50TJAI/WOTxvgf4pufc=",
+        "last_login": "2026-10-21T21:30:06.381Z",
+        "is_superuser": true,
+        "username": "admin2",
+        "first_name": "",
+        "last_name": "",
+        "email": "admin2@gmail.com",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2026-10-21T21:28:40.381Z",
+        "phone_number": null,
+        "date_of_birth": null,
+        "address": null,
+        "avatar": "",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "Shop.usercoupon",
+    "pk": 1,
+    "fields": {
+        "user": [
+            "violet12"
+        ],
+        "coupon": 1,
+        "used_at": "2026-10-15T22:43:49.027Z"
+    }
+},
+{
+    "model": "Cart.cart",
+    "pk": 1,
+    "fields": {
+        "user": [
+            "violet11"
+        ],
+        "created_at": "2026-10-08T03:13:55.556Z"
+    }
+},
+{
+    "model": "Cart.cart",
+    "pk": 2,
+    "fields": {
+        "user": [
+            "atteloiv"
+        ],
+        "created_at": "2026-10-13T21:00:14.809Z"
+    }
+},
+{
+    "model": "Cart.cart",
+    "pk": 3,
+    "fields": {
+        "user": [
+            "violet12"
+        ],
+        "created_at": "2026-10-15T22:28:12.647Z"
+    }
+},
+{
+    "model": "Cart.cart",
+    "pk": 4,
+    "fields": {
+        "user": [
+            "emrld"
+        ],
+        "created_at": "2026-10-15T22:41:01.111Z"
+    }
+},
+{
+    "model": "Cart.cart",
+    "pk": 5,
+    "fields": {
+        "user": [
+            "att"
+        ],
+        "created_at": "2026-10-15T22:42:05.592Z"
+    }
+},
+{
+    "model": "Cart.cart",
+    "pk": 6,
+    "fields": {
+        "user": [
+            "admin"
+        ],
+        "created_at": "2026-10-15T22:50:28.115Z"
+    }
+},
+{
+    "model": "Cart.cart",
+    "pk": 7,
+    "fields": {
+        "user": [
+            "admin2"
+        ],
+        "created_at": "2026-10-21T21:30:06.327Z"
+    }
+},
+{
+    "model": "Orders.order",
+    "pk": 1,
+    "fields": {
+        "user": [
+            "violet11"
+        ],
+        "first_name": "Violetta",
+        "last_name": "Hural",
+        "email": "viola200911@gmail.com",
+        "phone": "+380971234567",
+        "address": "123 Shevchenko Street, Lviv",
+        "status": "pending",
+        "created_at": "2026-10-15T22:12:11.622Z",
+        "updated_at": "2026-10-15T22:12:11.622Z",
+        "notes": "",
+        "is_default": false
+    }
+},
+{
+    "model": "Orders.order",
+    "pk": 2,
+    "fields": {
+        "user": [
+            "violet12"
+        ],
+        "first_name": "Violet",
+        "last_name": "Hural",
+        "email": "violet987654321987654321@gmail.com",
+        "phone": "+38097654321",
+        "address": "123 Apple Road, Lviv",
+        "status": "pending",
+        "created_at": "2026-10-15T22:31:35.238Z",
+        "updated_at": "2026-10-15T22:31:35.238Z",
+        "notes": "",
+        "is_default": false
+    }
+},
+{
+    "model": "Orders.order",
+    "pk": 3,
+    "fields": {
+        "user": [
+            "violet12"
+        ],
+        "first_name": "Violet",
+        "last_name": "Hural",
+        "email": "violet987654321987654321@gmail.com",
+        "phone": "+380977654321",
+        "address": "1 Apple Street, Lviv",
+        "status": "pending",
+        "created_at": "2026-10-15T22:43:49.011Z",
+        "updated_at": "2026-10-15T22:43:49.011Z",
+        "notes": "",
+        "is_default": false
+    }
+},
+{
+    "model": "Orders.order",
+    "pk": 4,
+    "fields": {
+        "user": [
+            "violet12"
+        ],
+        "first_name": "Violet",
+        "last_name": "Hural",
+        "email": "violet987654321987654321@gmail.com",
+        "phone": "+380977654321",
+        "address": "1 Apple Street, Lviv",
+        "status": "processing",
+        "created_at": "2026-10-15T22:46:55.390Z",
+        "updated_at": "2026-10-15T22:53:05.847Z",
+        "notes": "",
+        "is_default": true
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 1,
+    "fields": {
+        "action_time": "2026-09-30T21:41:24.530Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "Shop",
+            "category"
+        ],
+        "object_id": "1",
+        "object_repr": "Пазли",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 2,
+    "fields": {
+        "action_time": "2026-09-30T21:45:57.021Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "Shop",
+            "product"
+        ],
+        "object_id": "1",
+        "object_repr": "Пазли \"Ейфелева вежа\"",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 3,
+    "fields": {
+        "action_time": "2026-10-02T02:44:44.999Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "Shop",
+            "category"
+        ],
+        "object_id": "1",
+        "object_repr": "Пазли",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 4,
+    "fields": {
+        "action_time": "2026-10-02T03:01:02.125Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "Shop",
+            "product"
+        ],
+        "object_id": "18",
+        "object_repr": "Товар Товари для дому",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 5,
+    "fields": {
+        "action_time": "2026-10-02T03:01:02.126Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "Shop",
+            "product"
+        ],
+        "object_id": "17",
+        "object_repr": "Товар Спорт і відпочинок",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 6,
+    "fields": {
+        "action_time": "2026-10-02T03:01:02.126Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "Shop",
+            "product"
+        ],
+        "object_id": "16",
+        "object_repr": "Товар Одяг та взуття",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 7,
+    "fields": {
+        "action_time": "2026-10-02T03:01:02.126Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "Shop",
+            "product"
+        ],
+        "object_id": "15",
+        "object_repr": "Товар Книги та канцелярія",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 8,
+    "fields": {
+        "action_time": "2026-10-02T03:01:02.126Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "Shop",
+            "product"
+        ],
+        "object_id": "13",
+        "object_repr": "Товар Електроніка",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 9,
+    "fields": {
+        "action_time": "2026-10-03T22:54:48.301Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "Shop",
+            "product"
+        ],
+        "object_id": "19",
+        "object_repr": "Гантелі складані 2x10 кг",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0417\\u043e\\u0431\\u0440\\u0430\\u0436\\u0435\\u043d\\u043d\\u044f\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 10,
+    "fields": {
+        "action_time": "2026-10-03T22:56:58.971Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "Shop",
+            "product"
+        ],
+        "object_id": "14",
+        "object_repr": "Набір маркерів для скетчингу 24 шт",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0417\\u043e\\u0431\\u0440\\u0430\\u0436\\u0435\\u043d\\u043d\\u044f\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 11,
+    "fields": {
+        "action_time": "2026-10-03T22:57:48.124Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "Shop",
+            "product"
+        ],
+        "object_id": "14",
+        "object_repr": "Набір маркерів для скетчингу 24 шт",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 12,
+    "fields": {
+        "action_time": "2026-10-03T22:57:59.490Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "Shop",
+            "product"
+        ],
+        "object_id": "14",
+        "object_repr": "Набір маркерів для скетчингу 24 шт",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0417\\u043e\\u0431\\u0440\\u0430\\u0436\\u0435\\u043d\\u043d\\u044f\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 13,
+    "fields": {
+        "action_time": "2026-10-03T22:58:14.167Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "Shop",
+            "product"
+        ],
+        "object_id": "14",
+        "object_repr": "Набір маркерів для скетчингу 24 шт",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0417\\u043e\\u0431\\u0440\\u0430\\u0436\\u0435\\u043d\\u043d\\u044f\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 14,
+    "fields": {
+        "action_time": "2026-10-03T22:59:03.926Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "Shop",
+            "product"
+        ],
+        "object_id": "12",
+        "object_repr": "Ваза керамічна декоративна",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0417\\u043e\\u0431\\u0440\\u0430\\u0436\\u0435\\u043d\\u043d\\u044f\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 15,
+    "fields": {
+        "action_time": "2026-10-03T22:59:50.106Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "Shop",
+            "product"
+        ],
+        "object_id": "11",
+        "object_repr": "Книга 'Дюна' - Френк Герберт",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0417\\u043e\\u0431\\u0440\\u0430\\u0436\\u0435\\u043d\\u043d\\u044f\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 16,
+    "fields": {
+        "action_time": "2026-10-03T23:00:32.737Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "Shop",
+            "product"
+        ],
+        "object_id": "10",
+        "object_repr": "Туристичний намет 3-місний",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0417\\u043e\\u0431\\u0440\\u0430\\u0436\\u0435\\u043d\\u043d\\u044f\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 17,
+    "fields": {
+        "action_time": "2026-10-03T23:01:50.230Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "Shop",
+            "product"
+        ],
+        "object_id": "9",
+        "object_repr": "Настільна світлодіодна лампа",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0417\\u043e\\u0431\\u0440\\u0430\\u0436\\u0435\\u043d\\u043d\\u044f\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 18,
+    "fields": {
+        "action_time": "2026-10-03T23:02:34.268Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "Shop",
+            "product"
+        ],
+        "object_id": "8",
+        "object_repr": "Офісне крісло Ergonomic",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0417\\u043e\\u0431\\u0440\\u0430\\u0436\\u0435\\u043d\\u043d\\u044f\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 19,
+    "fields": {
+        "action_time": "2026-10-03T23:04:23.032Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "Shop",
+            "product"
+        ],
+        "object_id": "7",
+        "object_repr": "Кросівки Nike Air Force 1",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0417\\u043e\\u0431\\u0440\\u0430\\u0436\\u0435\\u043d\\u043d\\u044f\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 20,
+    "fields": {
+        "action_time": "2026-10-03T23:05:07.066Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "Shop",
+            "product"
+        ],
+        "object_id": "6",
+        "object_repr": "Жіноча сукня Міді",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0417\\u043e\\u0431\\u0440\\u0430\\u0436\\u0435\\u043d\\u043d\\u044f\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 21,
+    "fields": {
+        "action_time": "2026-10-03T23:07:44.874Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "Shop",
+            "product"
+        ],
+        "object_id": "5",
+        "object_repr": "Чоловічий худі Oversize",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0417\\u043e\\u0431\\u0440\\u0430\\u0436\\u0435\\u043d\\u043d\\u044f\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 22,
+    "fields": {
+        "action_time": "2026-10-03T23:10:05.037Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "Shop",
+            "product"
+        ],
+        "object_id": "4",
+        "object_repr": "Бездротові навушники Sony WH-1000XM5",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0417\\u043e\\u0431\\u0440\\u0430\\u0436\\u0435\\u043d\\u043d\\u044f\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 23,
+    "fields": {
+        "action_time": "2026-10-03T23:11:02.891Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "Shop",
+            "product"
+        ],
+        "object_id": "3",
+        "object_repr": "Ноутбук ASUS ROG Strix",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0417\\u043e\\u0431\\u0440\\u0430\\u0436\\u0435\\u043d\\u043d\\u044f\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 24,
+    "fields": {
+        "action_time": "2026-10-03T23:11:36.556Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "Shop",
+            "product"
+        ],
+        "object_id": "2",
+        "object_repr": "Смартфон Samsung Galaxy S23",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0417\\u043e\\u0431\\u0440\\u0430\\u0436\\u0435\\u043d\\u043d\\u044f\"]}}]"
+    }
+},
+{
+    "model": "account.emailaddress",
+    "pk": 1,
+    "fields": {
+        "user": [
+            "atteloiv"
+        ],
+        "email": "atteloivlaruh@gmail.com",
+        "verified": true,
+        "primary": true
+    }
+},
+{
+    "model": "account.emailaddress",
+    "pk": 2,
+    "fields": {
+        "user": [
+            "violet12"
+        ],
+        "email": "violet987654321987654321@gmail.com",
+        "verified": true,
+        "primary": true
+    }
+},
+{
+    "model": "socialaccount.socialaccount",
+    "pk": 1,
+    "fields": {
+        "user": [
+            "violet11"
+        ],
+        "provider": "google",
+        "uid": "108707209828266166913",
+        "last_login": "2026-10-14T03:19:29.461Z",
+        "date_joined": "2026-10-09T02:48:58.127Z",
+        "extra_data": {
+            "iss": "https://accounts.google.com",
+            "azp": "821204000474-08m4d9q8u3je8ksodpqnu9ua6vc5ueuj.apps.googleusercontent.com",
+            "aud": "821204000474-08m4d9q8u3je8ksodpqnu9ua6vc5ueuj.apps.googleusercontent.com",
+            "sub": "108707209828266166913",
+            "email": "viola200911@gmail.com",
+            "email_verified": true,
+            "at_hash": "o6G6IKwYzCRw8D4nwhNWnA",
+            "name": "Violetta Hural",
+            "picture": "https://lh3.googleusercontent.com/a/ACg8ocLqz8CGn4AXHceK0eK-l7t-_mFPb_0tdBg4SaG_wnSDDgqpEtHo=s96-c",
+            "given_name": "Violetta",
+            "family_name": "Hural",
+            "iat": 1791947969,
+            "exp": 1791951569
+        }
+    }
+},
+{
+    "model": "socialaccount.socialaccount",
+    "pk": 2,
+    "fields": {
+        "user": [
+            "atteloiv"
+        ],
+        "provider": "google",
+        "uid": "118103428276144367044",
+        "last_login": "2026-10-13T21:00:53.223Z",
+        "date_joined": "2026-10-13T21:00:14.723Z",
+        "extra_data": {
+            "iss": "https://accounts.google.com",
+            "azp": "821204000474-08m4d9q8u3je8ksodpqnu9ua6vc5ueuj.apps.googleusercontent.com",
+            "aud": "821204000474-08m4d9q8u3je8ksodpqnu9ua6vc5ueuj.apps.googleusercontent.com",
+            "sub": "118103428276144367044",
+            "email": "atteloivlaruh@gmail.com",
+            "email_verified": true,
+            "at_hash": "N7UYeWCO_ylViBtq1iE2gQ",
+            "name": "Atteloiv Laruh",
+            "picture": "https://lh3.googleusercontent.com/a/ACg8ocJDhjl8wGW37dN0aNkx-VP_tapxOfXlYzF9VRGMV9VWCvIH3Q=s96-c",
+            "given_name": "Atteloiv",
+            "family_name": "Laruh",
+            "iat": 1791925253,
+            "exp": 1791928853
+        }
+    }
+},
+{
+    "model": "socialaccount.socialaccount",
+    "pk": 3,
+    "fields": {
+        "user": [
+            "violet12"
+        ],
+        "provider": "google",
+        "uid": "110891179220940468105",
+        "last_login": "2026-10-15T22:56:01.556Z",
+        "date_joined": "2026-10-15T22:28:12.587Z",
+        "extra_data": {
+            "iss": "https://accounts.google.com",
+            "azp": "821204000474-08m4d9q8u3je8ksodpqnu9ua6vc5ueuj.apps.googleusercontent.com",
+            "aud": "821204000474-08m4d9q8u3je8ksodpqnu9ua6vc5ueuj.apps.googleusercontent.com",
+            "sub": "110891179220940468105",
+            "email": "violet987654321987654321@gmail.com",
+            "email_verified": true,
+            "at_hash": "0y7YSDLRu-BstVh4Hv-fgw",
+            "name": "Violet",
+            "picture": "https://lh3.googleusercontent.com/a/ACg8ocLfbzm1NbStTGRKQtGJhrYP1-CzZ7ib7MCmQ1OQ5Gle4qG9-g=s96-c",
+            "given_name": "Violet",
+            "iat": 1792104961,
+            "exp": 1792108561
+        }
+    }
+}
+]
