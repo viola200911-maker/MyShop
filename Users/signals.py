@@ -4,23 +4,10 @@ from django.contrib.auth import get_user_model
 from django.utils import timezone
 from datetime import timedelta
 from Shop.models import Coupon  # Змініть імпорт, якщо Coupon знаходиться в іншому додатку
+from allauth.account.signals import user_signed_up
+from .views import give_welcome_bonus  # або імпортуйте звідки винесли функцію
 
-User = get_user_model()
-
-@receiver(post_save, sender=User)
-def create_welcome_coupon_on_register(sender, instance, created, **kwargs):
-    # created = True означає, що це новий запис, а не оновлення існуючого
-    if created: 
-        try:
-            Coupon.objects.get_or_create(
-                code='WELCOME10',
-                defaults={
-                    'discount_type': 'percent',
-                    'discount_value': 10,
-                    'valid_from': timezone.now(),
-                    'valid_to': timezone.now() + timedelta(days=365*5),
-                    'active': True,
-                }
-            )
-        except Exception as e:
-            print(f"Помилка створення купону: {e}")
+@receiver(user_signed_up)
+def social_signup_bonus(request, user, **kwargs):
+    # Цей код виконається лише при першій реєстрації через Google/соцмережі
+    give_welcome_bonus(user)
