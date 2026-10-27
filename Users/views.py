@@ -22,20 +22,7 @@ def register_view(request):
             user = form.save()
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             merge_carts(request)
-
-            # 🎁 Створення / отримання привітального промокоду
             try:
-                Coupon.objects.get_or_create(
-                    code='WELCOME10',
-                    defaults={
-                        'discount_type': 'percent',
-                        'discount_value': 10,
-                        'valid_from': timezone.now(),
-                        'valid_to': timezone.now() + timedelta(days=365*5),
-                        'active': True,
-                        'is_single_use': True
-                    }
-                )
                 messages.success(request, "Успішна реєстрація! Вам доступний промокод на першу покупку 10%: WELCOME10")
             except Exception:
                 messages.success(request, "Успішна реєстрація!")
