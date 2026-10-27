@@ -3,6 +3,13 @@
 {% block title %}Головна — MyShop{% endblock %}
 
 {% block content %}
+{% if welcome_coupon %}
+<div style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+    <h4>🎁 Ваш привітальний бонус!</h4>
+    <p>Використайте промокод <strong style="font-size: 1.2em;">WELCOME10</strong> у кошику, щоб отримати
+        знижку 10%.</p>
+</div>
+{% endif %}
 <!-- Hero Баннер -->
 <div class="p-5 mb-4 bg-primary bg-gradient text-white rounded-4 shadow-sm">
     <div class="container-fluid py-3">
