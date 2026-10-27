@@ -150,22 +150,22 @@ def order_create(request):
             cart.clear()
 
             # Відправка електронного листа
-            try:
-                subject = f'MyShop — Підтвердження замовлення №{order.id}'
-                message = f"Вітаємо, {order.first_name}!\n\n" \
-                          f"Дякуємо за ваше замовлення №{order.id}.\n" \
-                          f"Адреса доставки: {order.address}\n\n" \
-                          f"Ми зв'яжемося з вами найближчим часом для підтвердження."
+            # try:
+            #     subject = f'MyShop — Підтвердження замовлення №{order.id}'
+            #     message = f"Вітаємо, {order.first_name}!\n\n" \
+            #               f"Дякуємо за ваше замовлення №{order.id}.\n" \
+            #               f"Адреса доставки: {order.address}\n\n" \
+            #               f"Ми зв'яжемося з вами найближчим часом для підтвердження."
                 
-                send_mail(
-                    subject,
-                    message,
-                    settings.DEFAULT_FROM_EMAIL,
-                    [order.email],
-                    fail_silently=True
-                )
-            except Exception:
-                pass
+            #     send_mail(
+            #         subject,
+            #         message,
+            #         settings.DEFAULT_FROM_EMAIL,
+            #         [order.email],
+            #         fail_silently=True
+            #     )
+            # except Exception:
+            #     pass
 
             return redirect('orders:order_success', order_id=order.id)
     else:
