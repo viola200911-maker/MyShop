@@ -206,6 +206,9 @@ SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
 # Одразу перенаправляти на Google без проміжної сторінки "Continue"
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
+ACCOUNT_ADAPTER = 'Users.adapters.CustomAccountAdapter'
+SOCIALACCOUNT_ADAPTER = 'Users.adapters.CustomSocialAccountAdapter'
+
 
 DATABASES = {
     'default': dj_database_url.config(

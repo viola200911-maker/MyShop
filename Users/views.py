@@ -10,7 +10,6 @@ from django.utils import timezone
 from .forms import CustomUserCreationForm, UserProfileForm, UserSecurityForm
 from Cart.cart import merge_carts
 from Shop.models import Coupon
-from .utils import give_welcome_bonus
 
 
 def register_view(request):
@@ -24,7 +23,6 @@ def register_view(request):
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             merge_carts(request)
             try:
-                give_welcome_bonus(user)
                 messages.success(request, "Успішна реєстрація! Вам доступний промокод на першу покупку 10%: WELCOME10")
             except Exception:
                 messages.success(request, "Успішна реєстрація!")
