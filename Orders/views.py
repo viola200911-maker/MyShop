@@ -90,10 +90,25 @@ def order_cancel_request(request, order_id):
     return render(request, 'Orders/order_cancel_confirm.html', {'order': order})
 
 
+import threading
+
+
 def order_create(request):
     cart = get_cart(request)
     if len(cart) == 0:
         return redirect('shop:product_list')
+
+    # Формуємо початкові дані для користувача (якщо він залогінений)
+    initial_data = {}
+    if request.user.is_authenticated:
+        user = request.user
+        initial_data = {
+            'first_name': getattr(user, 'first_name', ''),
+            'last_name': getattr(user, 'last_name', ''),
+            'email': getattr(user, 'email', ''),
+            'phone': getattr(user, 'phone_number', getattr(user, 'phone', '')),
+            'address': getattr(user, 'address', ''),
+        }
 
     if request.method == 'POST':
         form = OrderCreateForm(request.POST)
@@ -105,11 +120,9 @@ def order_create(request):
                 
                 # Якщо стоїть прапорець "is_default" — оновлюємо дані профілю
                 if form.cleaned_data.get('is_default'):
-                    user = request.user
                     new_email = form.cleaned_data.get('email')
                     
                     if new_email and new_email != user.email:
-                        from django.contrib.auth import get_user_model
                         User = get_user_model()
                         if not User.objects.filter(email__iexact=new_email).exclude(id=user.id).exists():
                             user.email = new_email
@@ -150,42 +163,48 @@ def order_create(request):
             cart.clear()
 
             # Відправка електронного листа
-            # try:
-            #     subject = f'MyShop — Підтвердження замовлення №{order.id}'
-            #     message = f"Вітаємо, {order.first_name}!\n\n" \
-            #               f"Дякуємо за ваше замовлення №{order.id}.\n" \
-            #               f"Адреса доставки: {order.address}\n\n" \
-            #               f"Ми зв'яжемося з вами найближчим часом для підтвердження."
-                
-            #     send_mail(
-            #         subject,
-            #         message,
-            #         settings.DEFAULT_FROM_EMAIL,
-            #         [order.email],
-            #         fail_silently=True
-            #     )
-            # except Exception:
-            #     pass
+            subject = f'MyShop — Підтвердження замовлення №{order.id}'
+            message = (
+                f"Вітаємо, {order.first_name}!\n\n"
+                f"Дякуємо за ваше замовлення №{order.id}.\n"
+                f"Адреса доставки: {order.address}\n\n"
+                f"Ми зв'яжемося з вами найближчим часом для підтвердження."
+            )
+            recipient = order.email
+
+            # Функція, яка буде працювати у фоні
+            def send_order_email(sub, msg, rec):
+                try:
+                    send_mail(
+                        sub, 
+                        msg, 
+                        settings.DEFAULT_FROM_EMAIL, 
+                        [rec], 
+                        fail_silently=True
+                    )
+                except Exception as e:
+                    print(f"Помилка відправки листа: {e}")
+
+            # Запускаємо фоновий потік
+            email_thread = threading.Thread(
+                target=send_order_email, 
+                args=(subject, message, recipient)
+            )
+            email_thread.start()
 
             return redirect('orders:order_success', order_id=order.id)
+        
+        # Якщо форма НЕ валідна (POST-запит з помилками), 
+        # змінна 'form' вже містить помилки, тому ми просто провалимось нижче до render()
+    
     else:
-        initial_data = {}
-        if request.user.is_authenticated:
-            user = request.user
-            initial_data = {
-                'first_name': getattr(user, 'first_name', ''),
-                'last_name': getattr(user, 'last_name', ''),
-                'email': getattr(user, 'email', ''),
-                'phone': getattr(user, 'phone_number', getattr(user, 'phone', '')),
-                'address': getattr(user, 'address', ''),
-            }
+        # Для звичайного GET-запиту створюємо форму з початковими даними профілю
         form = OrderCreateForm(initial=initial_data)
 
     return render(request, 'Orders/checkout.html', {
         'cart': cart,
         'form': form
     })
-
 
 def order_success(request, order_id):
     """Сторінка успішного оформлення замовлення"""
