@@ -9,6 +9,7 @@ from .models import Order, OrderItem
 from Shop.models import Coupon, UserCoupon
 from .forms import OrderCreateForm
 from Cart.cart import get_cart
+from django.contrib.auth import get_user_model
 
 
 @login_required
