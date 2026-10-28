@@ -129,4 +129,4 @@ def home(request):
     context = {
         'welcome_coupon': welcome_coupon,
     }
-    return render(request, 'users/home.html', context)
+    return render(request, 'Users/home.html', context)
