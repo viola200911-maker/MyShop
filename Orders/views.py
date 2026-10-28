@@ -184,7 +184,9 @@ def order_create(request):
                         fail_silently=False
                     )
                     print("Sent!!!!")
+                    messages.success(request, "Ok")
                 except Exception as e:
+                    messages.error(request, f"Error{e}")
                     print(f"Помилка відправки листа: {e}")
 
             # Запускаємо фоновий потік
