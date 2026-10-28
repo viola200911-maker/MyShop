@@ -181,8 +181,9 @@ def order_create(request):
                         msg, 
                         settings.DEFAULT_FROM_EMAIL, 
                         [rec], 
-                        fail_silently=True
+                        fail_silently=False
                     )
+                    print("Sent!!!!")
                 except Exception as e:
                     print(f"Помилка відправки листа: {e}")
 
