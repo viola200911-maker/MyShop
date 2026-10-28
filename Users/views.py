@@ -9,7 +9,7 @@ from django.utils import timezone
 
 from .forms import CustomUserCreationForm, UserProfileForm, UserSecurityForm
 from Cart.cart import merge_carts
-from Shop.models import Coupon
+from Shop.models import Coupon, UserCoupon
 
 
 def register_view(request):
@@ -110,12 +110,23 @@ def logout_view(request):
 
 
 def home(request):
-    welcome_coupon = Coupon.objects.filter(code='WELCOME10', active=True).first()
+    welcome_coupon = None
 
-    # Інший ваш код для профілю...
+    # 1. Перевіряємо, чи користувач авторизований
+    if request.user.is_authenticated:
+        # 2. Шукаємо активний привітальний купон
+        coupon = Coupon.objects.filter(code='WELCOME10', active=True).first()
+        
+        # Перевіряємо, чи купон існує і чи дійсний він по датах (через ваш метод is_valid)
+        if coupon and coupon.is_valid():
+            # 3. Перевіряємо, чи є запис у UserCoupon для цього користувача і купона
+            has_used_coupon = UserCoupon.objects.filter(user=request.user, coupon=coupon).exists()
+            
+            # Якщо користувач ще не використовував купон, передаємо його в шаблон
+            if not has_used_coupon:
+                welcome_coupon = coupon
 
     context = {
-        # Передаємо знайдений купон у контекст шаблону
         'welcome_coupon': welcome_coupon,
     }
-    return render(request, 'Users/home.html', context)
+    return render(request, 'users/home.html', context)
