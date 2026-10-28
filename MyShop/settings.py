@@ -147,25 +147,25 @@ LOGOUT_REDIRECT_URL = 'login'
 
 LOGIN_URL = 'login'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.ukr.net'
-EMAIL_PORT = 465
-EMAIL_USE_SSL = True # ukr.net вимагає SSL
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.ukr.net'
+# EMAIL_PORT = 465
+# EMAIL_USE_SSL = True # ukr.net вимагає SSL
 
-# Ваша реальна адреса на ukr.net
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")  
-# Згенерований пароль для додатків (бажано зберігати в .env файлі)
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD") 
+# # Ваша реальна адреса на ukr.net
+# EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")  
+# # Згенерований пароль для додатків (бажано зберігати в .env файлі)
+# EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD") 
 
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-SERVER_EMAIL = EMAIL_HOST_USER
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# SERVER_EMAIL = EMAIL_HOST_USER
 
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_USER_MODEL_USERNAME_FIELD = 'username'
 ACCOUNT_USER_MODEL_EMAIL_FIELD = 'email'
 
 
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 CART_SESSION_ID = 'cart'
 
