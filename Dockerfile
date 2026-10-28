@@ -22,4 +22,4 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 COPY . /app/
 
 # Запускаємо сервер через gunicorn (замініть 'myproject' на назву папки, де лежить ваш wsgi.py)
-CMD ["gunicorn", "MyShop.wsgi:application", "--bind", "0.0.0.0:8000", "--timeout", "60"]
+CMD ["gunicorn", "MyShop.wsgi:application", "--bind", "0.0.0.0:8000", "--timeout", "120"]
