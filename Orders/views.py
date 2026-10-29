@@ -176,20 +176,6 @@ def order_create(request):
 
             # Функція, яка буде працювати у фоні
 
-            def send_order_email(sub, msg, rec):
-                try:
-                    send_mail(
-                        sub,
-                        msg,
-                        settings.DEFAULT_FROM_EMAIL,
-                        [rec],
-                        fail_silently=False,
-                    )
-                    print("Email sent successfully!")
-                except Exception as e:
-                    print("--- ПОМИЛКА ВІДПРАВКИ ЛИСТА ---")
-                    traceback.print_exc()
-
             # Запускаємо фоновий потік
             email_thread = threading.Thread(
                 target=send_order_email, 
@@ -210,6 +196,20 @@ def order_create(request):
         'cart': cart,
         'form': form
     })
+
+def send_order_email(sub, msg, rec):
+                try:
+                    send_mail(
+                        sub,
+                        msg,
+                        settings.DEFAULT_FROM_EMAIL,
+                        [rec],
+                        fail_silently=False,
+                    )
+                    print("Email sent successfully!")
+                except Exception as e:
+                    print("--- ПОМИЛКА ВІДПРАВКИ ЛИСТА ---")
+                    traceback.print_exc()
 
 def order_success(request, order_id):
     """Сторінка успішного оформлення замовлення"""
