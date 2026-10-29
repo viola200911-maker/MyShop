@@ -92,7 +92,6 @@ def order_cancel_request(request, order_id):
     return render(request, 'Orders/order_cancel_confirm.html', {'order': order})
 
 
-import threading
 
 
 def order_create(request):
@@ -162,32 +161,30 @@ def order_create(request):
                 )
 
             # Очищення кошика
-            # Очищення кошика
             cart.clear()
-            
-            # 1. Спочатку формуємо тему та текст листа
-            subject = f"MyShop — Підтвердження замовлення №{order.id}"
-            message = (
-                f"Вітаємо, {order.first_name}!\n\n"
-                f"Дякуємо за ваше замовлення №{order.id}.\n"
-                f"Адреса доставки: {order.address}\n\n"
-                f"Ми зв'яжемося з вами найближчим часом для підтвердження."
-            )
 
-            # 2. Беремо пошту отримувача та виводимо лог
-            recipient = order.email
-            print(f"DEBUG: Намагаємося надіслати лист на адресу: {recipient}, для замовлення #{order.id}")
-
-            # 3. Перевіряємо чи є пошта і запускаємо потік
-            if recipient:
-                email_thread = threading.Thread(
-                    target=send_order_email,
-                    args=(subject, message, recipient)
+            # Відправка email про замовлення
+            if order.email:
+                subject = f"MyShop — Підтвердження замовлення №{order.id}"
+                message = (
+                    f"Вітаємо, {order.first_name}!\n\n"
+                    f"Дякуємо за ваше замовлення №{order.id}.\n"
+                    f"Адреса доставки: {order.address}\n\n"
+                    f"Ми зв'яжемося з вами найближчим часом для підтвердження."
                 )
-                email_thread.start()
-                print("DEBUG: Потік відправки успішно запущено!")
-            else:
-                print("ПОМИЛКА: У замовлення відсутній email отримувача!")
+
+                try:
+                    send_mail(
+                        subject,
+                        message,
+                        settings.DEFAULT_FROM_EMAIL,
+                        [order.email],
+                        fail_silently=False,
+                    )
+                    print(f"Email успішно надіслано на {order.email} для замовлення #{order.id}")
+                except Exception as e:
+                    print(f"ПОМИЛКА відправки email для замовлення #{order.id}: {str(e)}")
+                    traceback.print_exc()
 
             return redirect('orders:order_success', order_id=order.id)
         
@@ -202,20 +199,6 @@ def order_create(request):
         'cart': cart,
         'form': form
     })
-
-def send_order_email(sub, msg, rec):
-    try:
-        send_mail(
-            sub,
-            msg,
-            settings.DEFAULT_FROM_EMAIL,
-            [rec],
-            fail_silently=False,
-        )
-        print("Email sent successfully!")
-    except Exception as e:
-        print("--- ПОМИЛКА ВІДПРАВКИ ЛИСТА ---")
-        traceback.print_exc()
 
 def order_success(request, order_id):
     """Сторінка успішного оформлення замовлення"""
