@@ -10,6 +10,7 @@ from Shop.models import Coupon, UserCoupon
 from .forms import OrderCreateForm
 from Cart.cart import get_cart
 from django.contrib.auth import get_user_model
+import traceback
 
 
 @login_required
@@ -174,17 +175,20 @@ def order_create(request):
             recipient = order.email
 
             # Функція, яка буде працювати у фоні
+
             def send_order_email(sub, msg, rec):
                 try:
                     send_mail(
-                        sub, 
-                        msg, 
-                        settings.DEFAULT_FROM_EMAIL, 
-                        [rec], 
-                        fail_silently=False
+                        sub,
+                        msg,
+                        settings.DEFAULT_FROM_EMAIL,
+                        [rec],
+                        fail_silently=False,
                     )
+                    print("Email sent successfully!")
                 except Exception as e:
-                    print(f"Помилка відправки листа: {e}")
+                    print("--- ПОМИЛКА ВІДПРАВКИ ЛИСТА ---")
+                    traceback.print_exc()
 
             # Запускаємо фоновий потік
             email_thread = threading.Thread(
