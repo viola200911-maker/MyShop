@@ -5,6 +5,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.db.models import Q
 import threading
+import time
 
 from .models import Order, OrderItem
 from Shop.models import Coupon, UserCoupon
@@ -198,19 +199,28 @@ def order_create(request):
 
 
 def send_order_email(subject, message, recipient):
-    """Функція для асинхронної відправки email"""
-    try:
-        send_mail(
-            subject,
-            message,
-            settings.DEFAULT_FROM_EMAIL,
-            [recipient],
-            fail_silently=True,  # Не блокуємо при помилках SMTP
-        )
-        print(f"Email успішно надіслано на {recipient}")
-    except Exception as e:
-        print(f"ПОМИЛКА відправки email на {recipient}: {str(e)}")
-        traceback.print_exc()
+    """Функція для асинхронної відправки email з retry логікою"""
+    max_retries = 3
+    retry_delay = 2  # секунди між спробами
+
+    for attempt in range(max_retries):
+        try:
+            send_mail(
+                subject,
+                message,
+                settings.DEFAULT_FROM_EMAIL,
+                [recipient],
+                fail_silently=True,
+            )
+            print(f"Email успішно надіслано на {recipient} (спроба {attempt + 1})")
+            return
+        except Exception as e:
+            print(f"ПОМИЛКА відправки email на {recipient} (спроба {attempt + 1}/{max_retries}): {str(e)}")
+            if attempt < max_retries - 1:
+                time.sleep(retry_delay)
+            else:
+                print(f"Не вдалося надіслати email на {recipient} після {max_retries} спроб")
+                traceback.print_exc()
 
 
 def order_success(request, order_id):
