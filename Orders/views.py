@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
 from django.db.models import Q
+import threading
 
 from .models import Order, OrderItem
 from Shop.models import Coupon, UserCoupon
@@ -163,7 +164,7 @@ def order_create(request):
             # Очищення кошика
             cart.clear()
 
-            # Відправка email про замовлення
+            # Асинхронна відправка email про замовлення
             if order.email:
                 subject = f"MyShop — Підтвердження замовлення №{order.id}"
                 message = (
@@ -173,18 +174,13 @@ def order_create(request):
                     f"Ми зв'яжемося з вами найближчим часом для підтвердження."
                 )
 
-                try:
-                    send_mail(
-                        subject,
-                        message,
-                        settings.DEFAULT_FROM_EMAIL,
-                        [order.email],
-                        fail_silently=False,
-                    )
-                    print(f"Email успішно надіслано на {order.email} для замовлення #{order.id}")
-                except Exception as e:
-                    print(f"ПОМИЛКА відправки email для замовлення #{order.id}: {str(e)}")
-                    traceback.print_exc()
+                # Запускаємо відправку email в окремому daemon-потоці
+                email_thread = threading.Thread(
+                    target=send_order_email,
+                    args=(subject, message, order.email),
+                    daemon=True  # Потік завершиться автоматично при завершенні основного процесу
+                )
+                email_thread.start()
 
             return redirect('orders:order_success', order_id=order.id)
         
@@ -199,6 +195,23 @@ def order_create(request):
         'cart': cart,
         'form': form
     })
+
+
+def send_order_email(subject, message, recipient):
+    """Функція для асинхронної відправки email"""
+    try:
+        send_mail(
+            subject,
+            message,
+            settings.DEFAULT_FROM_EMAIL,
+            [recipient],
+            fail_silently=True,  # Не блокуємо при помилках SMTP
+        )
+        print(f"Email успішно надіслано на {recipient}")
+    except Exception as e:
+        print(f"ПОМИЛКА відправки email на {recipient}: {str(e)}")
+        traceback.print_exc()
+
 
 def order_success(request, order_id):
     """Сторінка успішного оформлення замовлення"""
