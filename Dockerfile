@@ -1,5 +1,5 @@
 # Використовуємо офіційний легкий образ Python
-FROM python:3.10-slim
+FROM python:3.12-slim
 
 # Забороняємо Python писати .pyc файли та буферизувати stdout/stderr
 ENV PYTHONDONTWRITEBYTECODE=1
