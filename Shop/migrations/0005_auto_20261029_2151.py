@@ -13,6 +13,7 @@ def create_site(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
+        ('Shop', '0004_review'),
         ('sites', '0001_initial'),
     ]
 
