@@ -116,6 +116,7 @@ def order_cancel_request(request, order_id):
 
 
 
+@login_required # або якщо у тебе оформлення доступне і для неавторизованих, дивись по своєму декоратору
 def order_create(request):
     cart = get_cart(request)
     if len(cart) == 0:
@@ -135,7 +136,19 @@ def order_create(request):
 
     if request.method == 'POST':
         form = OrderCreateForm(request.POST)
+        
         if form.is_valid():
+            # 1. ПЕРЕВІРКА СКЛАДУ: перевіряємо чи вистачає всіх товарів у кошику ДО збереження замовлення
+            for item in cart:
+                product = item['product']
+                quantity = item['quantity']
+                if product.stock < quantity:
+                    messages.error(
+                        request, 
+                        f"Вибачте, товару '{product.name}' забагато в кошику. На складі залишилось лише {product.stock} шт."
+                    )
+                    return redirect('cart:cart_detail')
+
             order = form.save(commit=False)
             
             if request.user.is_authenticated:
@@ -173,14 +186,24 @@ def order_create(request):
                 except Coupon.DoesNotExist:
                     pass
 
-            # Збереження товарів замовлення
+            # Збереження товарів замовлення та ОНОВЛЕННЯ СКЛАДУ
             for item in cart:
+                product = item['product']
+                quantity = item['quantity']
+                
                 OrderItem.objects.create(
                     order=order,
-                    product=item['product'],
+                    product=product,
                     price=item['price'],
-                    quantity=item['quantity']
+                    quantity=quantity
                 )
+                
+                # 2. Зменшуємо сток та деактивуємо товар, якщо залишок 0 або менше
+                product.stock -= quantity
+                if product.stock <= 0:
+                    product.stock = 0
+                    product.is_active = False  # Товар стає неактивним
+                product.save()
 
             # Очищення кошика
             cart.clear()
@@ -199,15 +222,12 @@ def order_create(request):
                 email_thread = threading.Thread(
                     target=send_order_email,
                     args=(subject, message, order.email),
-                    daemon=True  # Потік завершиться автоматично при завершенні основного процесу
+                    daemon=True 
                 )
                 email_thread.start()
 
             return redirect('orders:order_success', order_id=order.id)
         
-        # Якщо форма НЕ валідна (POST-запит з помилками), 
-        # змінна 'form' вже містить помилки, тому ми просто провалимось нижче до render()
-    
     else:
         # Для звичайного GET-запиту створюємо форму з початковими даними профілю
         form = OrderCreateForm(initial=initial_data)

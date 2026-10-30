@@ -100,8 +100,22 @@ MyShop
 
                         <div class="d-flex justify-content-between align-items-center mt-3">
                             <span class="fs-5 fw-bold text-success">{{ product.price }} грн</span>
-                            <a href="{% url 'shop:product_detail' product.slug %}"
-                                class="btn btn-outline-primary btn-sm">Детальніше</a>
+                        
+                            <div class="d-flex gap-2">
+                                <!-- Форма для швидкого додавання в кошик (з кількістю 1 за замовчуванням) -->
+                                {% if product.stock > 0 %}
+                                <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="quantity" value="1">
+                                    <button type="submit" class="btn btn-success btn-sm" title="Додати в кошик">
+                                        🛒 Купити
+                                    </button>
+                                </form>
+                                {% endif %}
+                        
+                                <!-- Кнопка Детальніше -->
+                                <a href="{% url 'shop:product_detail' product.slug %}" class="btn btn-outline-primary btn-sm">Детальніше</a>
+                            </div>
                         </div>
                     </div>
                 </div>
