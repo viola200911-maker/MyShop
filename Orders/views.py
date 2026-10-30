@@ -69,27 +69,47 @@ def order_cancel_request(request, order_id):
     if request.method == 'POST':
         reason = request.POST.get('reason', '').strip()
         
-        subject = f"MyShop — Запит на скасування замовлення №{order.id}"
-        message = (
+        # 1. Лист для КОРИСТУВАЧА
+        user_subject = f"MyShop — Запит на скасування замовлення #{order.id}"
+        user_message = (
             f"Вітаємо, {order.first_name}!\n\n"
-            f"Ми отримали ваш запит на скасування замовлення №{order.id}.\n"
+            f"Ми отримали ваш запит на скасування замовлення #{order.id}.\n"
             f"Причина скасування: {reason if reason else 'Не вказана'}.\n\n"
             f"Наш менеджер розгляне ваш запит найближчим часом та зв'яжеться з вами."
         )
-        
+
+        # 2. Лист для АДМІНІСТРААТОРА (менеджера)
+        admin_subject = f"[УВАГА] Новий запит на скасування замовлення #{order.id}"
+        admin_message = (
+            f"Увага! Користувач {request.user.username} (email: {order.email}) запросив скасування замовлення #{order.id}.\n\n"
+            f"Причина скасування від клієнта:\n{reason if reason else 'Причина не вказана'}\n\n"
+            f"Перевірте деталі замовлення в адміністративній панелі."
+        )
+
         try:
+            # Надсилаємо лист клієнту
             send_mail(
-                subject,
-                message,
+                user_subject,
+                user_message,
                 settings.DEFAULT_FROM_EMAIL,
-                [order.email, settings.DEFAULT_FROM_EMAIL],
-                fail_silently=True
+                [order.email],
+                fail_silently=False,
             )
-            messages.success(request, f"Запит на скасування замовлення №{order.id} успішно надіслано! Перевірте пошту.")
-        except Exception:
+            
+            # Надсилаємо окремий лист адміністратору (наприклад, на пошту магазину)
+            send_mail(
+                admin_subject,
+                admin_message,
+                settings.DEFAULT_FROM_EMAIL,
+                [settings.DEFAULT_FROM_EMAIL],  # або сюди можна вписати інший email адміна
+                fail_silently=False,
+            )
+
+            messages.success(request, f"Запит на скасування замовлення #{order.id} успішно надіслано! Перевірте пошту.")
+        except Exception as e:
             messages.warning(request, "Запит збережено, але виникла помилка під час надсилання електронного листа.")
 
-        return redirect('orders:order_detail', order_id=order.id)
+        return redirect('orders:order_detail', order_id=order_id)
 
     return render(request, 'Orders/order_cancel_confirm.html', {'order': order})
 
